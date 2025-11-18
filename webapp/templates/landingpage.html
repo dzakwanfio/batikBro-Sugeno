@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <title>Beranda</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+
+<body class="bg-white text-[#222]">
+
+<!-- NAVBAR -->
+<nav class="w-full bg-white py-6 px-12 flex items-center">
+
+    <!-- Logo kiri -->
+    <div class="w-1/3">
+        <img src="{% static 'img/logo1.png' %}" class="w-14">
+    </div>
+
+    <!-- Menu di tengah -->
+    <div class="w-1/3 flex justify-center">
+        <ul class="flex gap-10 text-[17px] font-semibold text-gray-700">
+            <li>
+                <a href="#" class="text-yellow-600 border-b border-yellow-600 pb-1">
+                    Beranda
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'input_data' %}" class="hover:text-yellow-600">
+                    Input Data
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Kosong kanan (spacer agar menu tetap centered) -->
+    <div class="w-1/3"></div>
+
+</nav>
+
+<!-- HERO -->
+<section class="px-20 py-20 flex items-center justify-between">
+
+    <!-- LEFT TEXT -->
+    <div class="max-w-3xl"> <!-- PERLEBAR CONTAINER -->
+
+        <h1 class="text-[36px] font-extrabold leading-tight text-black"> <!-- PERKECIL FONT -->
+            Selamat Datang di 
+            <span class="text-[#B88A44]">BatikBro</span>
+            <br>
+            Sistem Cerdas Penentuan Jumlah
+            <br>
+            Produksi Batik Berbasis Fuzzy Sugeno
+        </h1>
+
+        <p class="mt-6 text-gray-700 leading-relaxed text-[15px] max-w-xl">
+            Di <b>BatikBro</b>, kami membantu pelaku usaha batik baik pengrajin batik tulis, batik cap, 
+            maupun batik printing dalam menentukan <b>jumlah produksi yang tepat</b> dan tepat waktu 
+            agar sesuai dengan permintaan pasar serta meminimalkan risiko kelebihan atau kekurangan stok.
+        </p>
+
+        <button class="mt-8 bg-gradient-to-r from-[#B88A44] to-[#E6C98E]
+                       text-white px-7 py-3 rounded-full text-[14px] font-semibold
+                       shadow hover:opacity-90 transition-all">
+            COBA SEKARANG
+        </button>
+
+    </div>
+
+    <!-- RIGHT IMAGE -->
+    <div class="w-[420px] h-[320px] bg-gray-100 rounded-2xl border 
+                flex items-center justify-center text-gray-500 text-sm">
+        (Gambar di sini)
+    </div>
+
+</section>
+
+
+<!-- WHY SECTION -->
+<section class="mt-24 px-20">
+
+    <!-- TITLE -->
+    <h2 class="text-3xl font-extrabold text-center">
+        Mengapa Ribuan Pengrajin Batik Sudah Pakai BatikBro?
+    </h2>
+
+    <p class="mt-3 text-gray-600 text-center">
+        Setiap hari pengrajin batik dihadapkan dua masalah besar:
+    </p>
+
+    <!-- CARD WRAPPER -->
+    <div class="grid grid-cols-2 gap-10 mt-12">
+
+        <!-- CARD 1 -->
+        <div class="bg-white shadow-lg rounded-3xl p-8">
+             <img src="{% static 'img/capital1.png' %}" 
+                 class="rounded-2xl mb-6 h-56 w-full object-cover">
+
+            <h3 class="text-xl font-extrabold text-black">
+                Produksi Kebanyakan
+            </h3>
+
+            <p class="mt-3 text-gray-600 leading-relaxed text-[15px]">
+                Kalau terlalu banyak memproduksi sementara pasar sepi, kain
+                mori dan malam jadi numpuk di gudang berbulan-bulan. Uang
+                yang seharusnya untuk beli bahan baru atau bayar tukang malah
+                "nyangkut" di stok mati, usaha jadi susah berkembang.
+            </p>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="bg-white shadow-lg rounded-3xl p-8">
+            <img src="{% static 'img/capital1.png' %}"
+                 class="rounded-2xl mb-6 h-56 w-full object-cover">
+
+            <h3 class="text-xl font-extrabold text-black">
+                Produksi Kekurangan
+            </h3>
+
+            <p class="mt-3 text-gray-600 leading-relaxed text-[15px]">
+                Kalau permintaan sedang ramai tapi stok habis atau produksi
+                kurang, pesanan besar harus ditolak atau dikirim telat.
+                Pelanggan kecewa, langsung lari ke pengrajin sebelah yang bisa
+                langsung kasih barang — kesempatan untung besar pun hilang.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="max-w-4xl mx-auto bg-[#FFF4DC] px-12 py-12 rounded-[32px] mt-20 text-center">
+
+    <p class="text-lg font-medium leading-relaxed text-gray-800">
+        Sistem Sugeno ini mengubah cara kami merencanakan produksi batik.
+        Dulu butuh 1–2 hari analisis manual, kini hanya 3 detik dengan akurasi rata-rata 80%.
+        Selisih prediksi dengan realisasi hanya 24 %, sehingga penumpukan stok dan kehilangan
+        peluang penjualan berhasil diminimalkan.
+    </p>
+
+    <div class="mt-8 text-left">
+        <p class="font-semibold text-gray-800">Mansur Gin</p>
+        <p class="text-sm text-gray-600">CEO BatikBro</p>
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="text-center text-gray-700 py-10 mt-10 text-sm">
+    © 2025 BatikBro | Sistem Fuzzy Sugeno
+</footer>
+
+</body>
+</html>

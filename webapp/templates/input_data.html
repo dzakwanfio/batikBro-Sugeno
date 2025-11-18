@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Input Data — BatikBro</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: Inter, sans-serif; }
+        input[type="range"]::-webkit-slider-thumb { cursor: pointer; }
+    </style>
+</head>
+
+<body class="bg-[#F9F6F1]">
+
+<!-- NAVBAR -->
+<nav class="w-full flex items-center py-6 px-14 bg-white shadow-sm">
+    
+    <!-- Logo kiri -->
+    <div class="w-1/3">
+        <img src="{% static 'img/logo1.png' %}" class="w-14">
+    </div>
+
+    <!-- Menu tengah -->
+    <div class="w-1/3 flex justify-center">
+        <ul class="flex gap-12 text-[17px] font-semibold text-gray-700">
+            <li><a href="{% url 'landingpage' %}" class="hover:text-[#C8A24C]">Beranda</a></li>
+            <li><a href="{% url 'input_data' %}" class="text-[#C8A24C] border-b border-[#C8A24C] pb-1">Input Data</a></li>
+        </ul>
+    </div>
+
+    <!-- Spacer kanan -->
+    <div class="w-1/3"></div>
+</nav>
+
+<!-- HEADER -->
+<section class="px-20 pt-8 pb-2">
+    <h1 class="text-3xl font-bold text-gray-900">
+        Masukkan <span class="text-[#C8A24C]">Data Permintaan</span> dan <span class="text-[#C8A24C]">Persediaan Batik</span>
+    </h1>
+</section>
+
+<section class="px-20 pb-20">
+
+<form action="#" method="POST" class="flex flex-col gap-8">
+    {% csrf_token %}
+
+    <!-- CARD UTAMA -->
+    <div class="bg-white shadow-xl rounded-3xl p-10 w-full mt-4 space-y-12">
+
+    <!-- PILIH JENIS BATIK -->
+    <div>
+        <h2 class="text-lg font-semibold mb-3">Pilih Jenis Batik</h2>
+
+        <select id="jenisBatik" name="jenis_batik"
+                class="w-full border rounded-lg px-4 py-2 bg-white shadow-sm
+                       focus:ring-2 focus:ring-[#B0DFFC] outline-none text-gray-700">
+            <option value="" disabled selected>Pilih jenis batik</option>
+            <option value="tulis">Batik Tulis</option>
+            <option value="cantingcap">Batik CantingCap</option>
+            <option value="printing">Batik Printing</option>
+        </select>
+    </div>
+
+    <!-- DEMAND -->
+    <div>
+        <h2 class="text-lg font-semibold mb-2">Permintaan Pasar (Demand)</h2>
+
+        <div class="flex items-center">
+            <input id="demandSlider" type="range" name="demand"
+                   min="10" max="50" value="30"
+                   class="w-full accent-[#8BD2FF] slider-input"
+                   data-label="demandValue">
+
+            <div class="flex items-center ml-4">
+                <input id="demandValue" type="number"
+                       min="10" max="50" value="30"
+                       class="w-14 border rounded-md px-2 py-1
+                              text-right bg-white shadow-sm" />
+            </div>
+        </div>
+
+        <p id="ketDemand" class="mt-2 text-gray-600 text-sm">
+            Pilih Jenis Batik Terlebih Dahulu
+        </p>
+    </div>
+
+    <!-- INVENTORY -->
+    <div>
+        <h2 class="text-lg font-semibold mb-2">Persediaan Stok Saat Ini (Inventory)</h2>
+
+        <div class="flex items-center">
+            <input id="inventorySlider" type="range" name="inventory"
+                   min="9" max="100" value="60"
+                   class="w-full accent-[#8BD2FF] slider-input"
+                   data-label="inventoryValue">
+
+            <div class="flex items-center ml-4">
+                <input id="inventoryValue" type="number"
+                       min="9" max="100" value="60"
+                       class="w-14 border rounded-md px-2 py-1
+                              text-right bg-white shadow-sm" />
+            </div>
+        </div>
+
+        <p id="ketInventory" class="mt-2 text-gray-600 text-sm">
+            Pilih Jenis Batik Terlebih Dahulu
+        </p>
+    </div>
+
+    <!-- BUTTON -->
+ <div class="w-full flex justify-center">
+    <button id="btnAnalisis" type="submit"
+        class="px-14 py-3 text-white font-semibold rounded-xl
+               bg-[#4AB2E4] hover:bg-[#3A9DCB] transition shadow-md">
+        ANALISIS
+    </button>
+</div>
+
+</div>
+</form>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="text-center text-gray-700 py-10 text-sm">
+    © 2025 CREDEXA | Sistem Fuzzy Sugeno
+</footer>
+
+<script src="{% static 'js/input_data.js' %}"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hasil Analisis — CREDEXA</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Inter, sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+
+    <!-- NAVBAR -->
+    <nav class="w-full bg-white border-b border-gray-200 py-6 px-16 flex items-center">
+        <img src="{% static 'img/logo.png' %}" class="w-10">
+
+        <ul class="flex gap-14 mx-auto font-medium text-gray-700">
+            <li><a href="{% url 'landingpage' %}" class="hover:text-blue-600">Beranda</a></li>
+            <li><a href="{% url 'input_data' %}" class="hover:text-blue-600">Input Data</a></li>
+            <li><a href="{% url 'hasil' %}" class="text-blue-600 border-b-2 border-blue-600 pb-1">Hasil</a></li>
+        </ul>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="px-16 py-12 text-center">
+        <h1 class="text-3xl font-extrabold tracking-wide uppercase text-gray-800">
+            <span style="color:#2595D6;">Nilai</span> Hasil Analisis & Keputusan
+        </h1>
+    </header>
+
+    <!-- Gauge Chart -->
+    <div class="flex justify-center mt-6">
+    <canvas id="gaugeChart" width="240" height="150" style="max-width:240px;"></canvas>
+    </div>
+
+  <!-- Persentase di bawah gauge -->
+    <p class="text-center text-5xl font-extrabold text-red-500 mt-4">
+        {{ score }}%
+    </p>
+
+    <!-- STATUS KEPUTUSAN -->
+    <div class="text-center mt-4">
+        {% if keputusan == "LAYAK Kredit" %}
+            <h2 class="text-3xl font-extrabold text-green-600 tracking-wide uppercase">
+                Kredit Disetujui
+            </h2>
+            <p class="mt-2 text-lg text-gray-700">
+                Selamat! Pengajuan kredit memenuhi syarat minimum bank.
+            </p>
+        {% else %}
+            <h2 class="text-3xl font-extrabold text-red-600 tracking-wide uppercase">
+                Kredit Tidak Disetujui
+            </h2>
+            <p class="mt-2 text-lg text-gray-700">
+                Sayang sekali, pengajuan kredit belum memenuhi syarat minimum bank saat ini.
+            </p>
+        {% endif %}
+    </div>
+
+            <!-- RINGKASAN -->
+         <h3 class="text-2xl font-bold tracking-wide uppercase mt-16 mb-3 text-gray-800 text-center">
+            Ringkasan <span style="color:#2595D6;">Input</span> & <span style="color:#2595D6;">Fuzzy</span>
+        </h3>
+        <hr class="border-gray-300 mb-12 mx-auto w-2/3">
+
+        <!-- CARD BESAR SESUAI DESAIN -->
+        <div class="bg-white shadow-xl rounded-3xl p-12 w-full mt-12">
+
+            <!-- GRID UTAMA: 2 KOLOM (teks kiri, gambar kanan) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+                <!-- KIRI = TEKS  (2 kolom) -->
+                <div class="md:col-span-2 space-y-10">
+
+                    <!-- CHARACTER -->
+                    <div>
+                        <h4 class="text-xl font-semibold text-gray-800 mb-2">Character</h4>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            Dengan nilai input <b>{{ character }}</b> dari skala 0–100,
+                            nasabah masuk ke dalam kategori <b>{{ fuzzy_character_label }}</b>
+                            dengan derajat keanggotaan
+                            <b>μ{{ fuzzy_character_label }} = {{ fuzzy_character_mu }}</b>.
+                            {{ fuzzy_character_desc }}
+                        </p>
+                    </div>
+
+                    <!-- CAPITAL -->
+                    <div>
+                        <h4 class="text-xl font-semibold text-gray-800 mb-2">Capital</h4>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            Dengan nilai input <b>{{ capital }}</b>,
+                            nasabah masuk kategori <b>{{ fuzzy_capital_label }}</b>
+                            dengan nilai keanggotaan
+                            <b>μ{{ fuzzy_capital_label }} = {{ fuzzy_capital_mu }}</b>.
+                            {{ fuzzy_capital_desc }}
+                        </p>
+                    </div>
+
+                    <!-- CAPACITY -->
+                    <div>
+                        <h4 class="text-xl font-semibold text-gray-800 mb-2">Capacity</h4>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            Nilai <b>{{ capacity }}</b> masuk kategori <b>{{ fuzzy_capacity_label }}</b>
+                            dengan keanggotaan
+                            <b>μ{{ fuzzy_capacity_label }} = {{ fuzzy_capacity_mu }}</b>.
+                            {{ fuzzy_capacity_desc }}
+                        </p>
+                    </div>
+
+                    <!-- COLLATERAL -->
+                    <div>
+                        <h4 class="text-xl font-semibold text-gray-800 mb-2">Collateral</h4>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            Dengan input <b>{{ collateral }}</b>,
+                            nasabah berada pada kategori <b>{{ fuzzy_collateral_label }}</b>
+                            dengan derajat
+                            <b>μ{{ fuzzy_collateral_label }} = {{ fuzzy_collateral_mu }}</b>.
+                            {{ fuzzy_collateral_desc }}
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- KANAN = TEMPAT GAMBAR (grafik fuzzy) -->
+                <div class="flex flex-col justify-start space-y-10">
+
+                    <!-- tempat gambar 1 -->
+                    <div class="w-48 h-32 bg-gray-100 border rounded-xl overflow-hidden">
+                        <img src="{% static 'img/character_plot.png' %}" class="w-full h-full object-cover">
+                    </div>
+
+                    <!-- tempat gambar 2 -->
+                    <div class="w-48 h-32 bg-gray-100 border rounded-xl overflow-hidden">
+                        <img src="{% static 'img/capital_plot.png' %}" class="w-full h-full object-cover">
+                    </div>
+
+                    <!-- tempat gambar 3 -->
+                    <div class="w-48 h-32 bg-gray-100 border rounded-xl overflow-hidden">
+                        <img src="{% static 'img/capacity_plot.png' %}" class="w-full h-full object-cover">
+                    </div>
+
+                    <!-- tempat gambar 4 -->
+                    <div class="w-48 h-32 bg-gray-100 border rounded-xl overflow-hidden">
+                        <img src="{% static 'img/collateral_plot.png' %}" class="w-full h-full object-cover">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+    <footer class="text-center text-gray-600 py-10">
+        © 2025 CREDEXA | Sistem Fuzzy Sugeno
+    </footer>
+
+    <!-- Library Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Plugin Datalabels -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+    <!-- Passing score value -->
+    <script>
+        const finalScore = {{ score }};
+    </script>
+
+    <!-- External JS -->
+    <script src="{% static 'js/hasil.js' %}"></script>
+
+    </body>
+    </html>
