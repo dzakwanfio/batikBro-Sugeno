@@ -1,78 +1,36 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+import json
+# Impor fungsi fuzzy dari models.py
+from .models import calculate_fuzzy_production
 
 
 def landingpage(request):
-    return render(request, "landingpage.html")
-
-# INPUT DATA PAGE
-def input_data(request):
-    return render(request, "input_data.html")
-
-
-# PROSES ANALISIS
-from django.shortcuts import redirect, render
-
-
-def landingpage(request):
+    """Render halaman utama/landing page."""
     return render(request, "landingpage.html")
 
 def input_data(request):
+    """Render halaman input data."""
     return render(request, "input_data.html")
 
-def hasil(request):
-    return render(request, "hasil.html")
+@require_POST
+def analyze_production(request):
+    """Menerima data via POST, menjalankan logika fuzzy, dan mengembalikan JSON."""
+    try:
+        data = json.loads(request.body)
+        batik_type = data.get('jenisBatik')
+        demand = float(data.get('demand'))
+        inventory = float(data.get('inventory'))
 
+        if not all([batik_type, demand is not None, inventory is not None]):
+            return JsonResponse({'error': 'Data tidak lengkap.'}, status=400)
 
-def analisis(request):
-    if request.method != 'POST':
-        return redirect('input_data')
+        # Panggil fungsi fuzzy logic dari models.py
+        result = calculate_fuzzy_production(demand, inventory, batik_type)
 
-    # Ambil data dari form
-    character = request.POST.get('character')
-    capital = request.POST.get('capital')
-    capacity = request.POST.get('capacity')
-    collateral = request.POST.get('collateral')
-
-    # Mapping nilai (contoh, nanti bisa diganti fuzzy)
-    score_map = {
-        "Tidak Baik": 20,
-        "Cukup Baik": 60,
-        "Baik": 90,
-
-        "Tidak Setuju": 20,
-        "Cukup Setuju": 60,
-        "Setuju": 90,
-
-        "Rendah": 30,
-        "Sedang": 60,
-        "Tinggi": 90,
-
-        "Tidak Mandiri": 25,
-        "Campuran": 55,
-        "Mandiri": 90
-    }
-
-    total_score = (
-        score_map.get(character, 0) +
-        score_map.get(capital, 0) +
-        score_map.get(capacity, 0) +
-        score_map.get(collateral, 0)
-    ) / 4
-
-    keputusan = "LAYAK Kredit" if total_score >= 70 else "TIDAK Layak Kredit"
-
-    context = {
-        'character': character,
-        'capital': capital,
-        'capacity': capacity,
-        'collateral': collateral,
-        'score': round(total_score, 2),
-        'keputusan': keputusan
-    }
-
-    return render(request, 'hasil.html', context)
-
-
-# HALAMAN HASIL
-def hasil(request):
-    return render(request, "hasil.html")
+        return JsonResponse(result)
+    except (json.JSONDecodeError, ValueError, TypeError) as e:
+        return JsonResponse({'error': f'Input tidak valid: {str(e)}'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': f'Terjadi kesalahan di server: {str(e)}'}, status=500)
