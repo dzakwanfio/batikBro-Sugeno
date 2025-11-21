@@ -20,10 +20,7 @@ from webapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Halaman utama (beranda) aplikasi
     path('', views.landingpage, name='landingpage'),
-    # Halaman untuk memasukkan data analisis
     path('input/', views.input_data, name='input_data'),
-    # Endpoint untuk menerima request analisis dari frontend
     path('analyze/', views.analyze_production, name='analyze_production'),
 ]

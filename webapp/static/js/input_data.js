@@ -241,7 +241,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
 
                 <div class="w-full flex justify-center mt-8">
-                    <button id="ulangBtn" class="px-14 py-3 text-white font-semibold rounded-xl bg-[#4AB2E4] hover:bg-[#3A9DCB] transition shadow-md">ANALISIS ULANG</button>
+                    <button id="ulangBtn" 
+        class="px-14 py-3 text-white font-semibold rounded-xl 
+               bg-gradient-to-r from-[#B88A44] to-[#E6C98E] 
+               hover:from-[#9C7438] hover:to-[#C8A24C] 
+               transition-all duration-300 shadow-md">
+    ANALISIS ULANG
+</button>
                 </div>
             `;
 
